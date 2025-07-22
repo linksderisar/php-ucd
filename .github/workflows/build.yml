@@ -47,7 +47,7 @@ jobs:
         with:
           path: |
             ~/.phive
-            tools
+            ${{ github.workspace }}/tools
           key: phive-${{ runner.os }}-${{ hashFiles('.phive/phars.xml') }}
           restore-keys: |
             phive-${{ runner.os }}-
@@ -55,8 +55,8 @@ jobs:
       - name: Install PHAR tools with PHIVE
         if: steps.cache-phive.outputs.cache-hit != 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.PHIVE_GITHUB_TOKEN }}
-        run: ${{ github.workspace }}/tools/phar/phive install --trust-gpg-keys C5095986493B4AA0 --github-token $GITHUB_TOKEN
+          GITHUB_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ${{ github.workspace }}/tools/phar/phive install --trust-gpg-keys C5095986493B4AA0
 
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
