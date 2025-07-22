@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Remorhaz\UCD\Tool\Exception\InvalidLineException;
 
 #[CoversClass(InvalidLineException::class)]
-class InvalidLineExceptionTest extends TestCase
+final class InvalidLineExceptionTest extends TestCase
 {
     public function testGetMessage_Constructed_ReturnsMatchingValue(): void
     {

@@ -17,7 +17,7 @@ use Remorhaz\UCD\PropertyRangeLoader;
 use function preg_quote;
 
 #[CoversClass(PropertyRangeLoader::class)]
-class PropertyLoaderTest extends TestCase
+final class PropertyLoaderTest extends TestCase
 {
     public function testGetRangeSet_RangeSetNotExists_ThrowsException(): void
     {

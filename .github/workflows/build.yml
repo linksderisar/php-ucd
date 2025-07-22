@@ -21,6 +21,7 @@ jobs:
           - "8.1"
           - "8.2"
           - "8.3"
+          - "8.4"
         dependencies:
           - lowest
           - highest
@@ -40,6 +41,23 @@ jobs:
         with:
           binPath: "${{ github.workspace }}/tools/phar/phive"
 
+      - name: Cache Phive tools
+        id: cache-phive
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.phive
+            tools
+          key: phive-${{ runner.os }}-${{ hashFiles('.phive/phars.xml') }}
+          restore-keys: |
+            phive-${{ runner.os }}-
+
+      - name: Install PHAR tools with PHIVE
+        if: steps.cache-phive.outputs.cache-hit != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PHIVE_GITHUB_TOKEN }}
+        run: ${{ github.workspace }}/tools/phar/phive install --trust-gpg-keys C5095986493B4AA0 --github-token $GITHUB_TOKEN
+
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
@@ -51,6 +69,9 @@ jobs:
           key: ${{ runner.os }}-php-${{ matrix.php-version }}-${{ matrix.dependencies }}
           restore-keys: |
             ${{ runner.os }}-php-${{ matrix.php-version }}-${{ matrix.dependencies }}
+
+      - name: Force HTTPS for php-int-rangesets only
+        run: git config --global url."https://github.com/Oryss/php-int-rangesets".insteadOf "git@github.com:Oryss/php-int-rangesets"
 
       - name: Install lowest dependencies
         if: ${{ matrix.dependencies == 'lowest' && matrix.platform-reqs == 'use-platform-reqs' }}
@@ -72,9 +93,10 @@ jobs:
         run: composer test
 
       - name: Run infection
-        run: composer infection
         env:
-          INFECTION_DASHBOARD_API_KEY: ${{ secrets.INFECTION_DASHBOARD_API_KEY }}
+          STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+        if: ${{ env.STRYKER_DASHBOARD_API_KEY }}
+        run: composer infection
 
       - name: Upload coverage to Codecov.io
         run: bash <(curl -s https://codecov.io/bash -s "build/logs")

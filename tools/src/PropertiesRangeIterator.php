@@ -31,6 +31,7 @@ final class PropertiesRangeIterator implements IteratorAggregate
     /**
      * @return Iterator<string, RangeInterface>
      */
+    #[\Override]
     public function getIterator(): Iterator
     {
         while (!$this->file->eof()) {

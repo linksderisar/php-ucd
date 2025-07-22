@@ -35,6 +35,7 @@ final class PropertyRangeLoader implements PropertyRangeLoaderInterface
     ) {
     }
 
+    #[\Override]
     public function getRangeSet(string $propertyName): RangeSetInterface
     {
         return $this->cache[$propertyName] ??= $this->loadRangeSet($propertyName);

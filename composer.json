@@ -25,23 +25,26 @@
       "Remorhaz\\UCD\\Tool\\Test\\": "tools/tests/"
     }
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/Oryss/php-int-rangesets"
+    }
+  ],
   "require": {
-    "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+    "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
     "nikic/php-parser": "^4.10 || ^5",
-    "remorhaz/int-rangesets": "^0.3"
+    "remorhaz/int-rangesets": "dev-master"
   },
   "require-dev": {
-    "bamarni/composer-bin-plugin": "^1.8",
+    "bamarni/composer-bin-plugin": "^1.8.2",
     "phpunit/phpunit": "^10.1 || ^11",
     "symfony/console": "^6.1 || ^7",
-    "thecodingmachine/safe": "^2.5"
+    "thecodingmachine/safe": "^v3.3.0"
   },
   "scripts": {
-    "post-update-cmd": ["@phive-install"],
-    "post-install-cmd": ["@phive-install"],
-    "phive-install": [
-      "`if [ -f tools/phar/phive ]; then echo 'tools/phar/'; fi`phive install --trust-gpg-keys C5095986493B4AA0"
-    ],
+    "post-update-cmd": [],
+    "post-install-cmd": [],
     "build": [
       "php tools/bin/PropertyBuilderApp.php",
       "vendor-bin/cs/vendor/bin/phpcbf -p src/Ranges/ config/ranges.php; if [ $? -eq 1 ]; then exit 0; fi"

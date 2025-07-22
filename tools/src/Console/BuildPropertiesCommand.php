@@ -32,6 +32,7 @@ final class BuildPropertiesCommand extends Command
     private const OPTION_SOURCE_PROP_LIST = 'source-prop-list';
     private const OPTION_SOURCE_DERIVED_CORE_PROPERTIES = 'source-derived-core-properties';
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -117,6 +118,7 @@ final class BuildPropertiesCommand extends Command
         );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln($this->getApplication()?->getName() ?? 'unknown');

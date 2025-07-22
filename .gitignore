@@ -9,3 +9,4 @@
 /psalm.xml
 /infection.json
 .phpunit.result.cache
+.idea
