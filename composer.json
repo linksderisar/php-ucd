@@ -28,7 +28,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/Oryss/php-int-rangesets"
+      "url": "https://github.com/linksderisar/php-int-rangesets"
     }
   ],
   "require": {
